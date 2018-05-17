@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author Ann
  */
-public interface BotInterface {
+public interface Bot {
     
     /**
      * Получение списка всех монстров на карте

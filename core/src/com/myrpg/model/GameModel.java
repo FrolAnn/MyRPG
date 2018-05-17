@@ -15,7 +15,7 @@ import java.util.Random;
  *
  * @author Ann
  */
-public class GameModel implements BotInterface {
+public class GameModel implements Bot {
     
     private GameField field;
     private Character player;

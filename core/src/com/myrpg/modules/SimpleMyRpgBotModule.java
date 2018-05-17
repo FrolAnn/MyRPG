@@ -7,20 +7,20 @@ package com.myrpg.modules;
 
 import com.myrpg.extensions.Module;
 import com.myrpg.game.MyRpgGame;
-import com.myrpg.model.BotInterface;
 import com.myrpg.model.Cell;
 import com.myrpg.model.Monster;
 import com.myrpg.model.Character;
 import java.util.ArrayList;
+import com.myrpg.model.Bot;
 
 public class SimpleMyRpgBotModule implements Module {
 
-  private BotInterface bot;
+  private Bot bot;
   private Monster target;
   private Character player;
   
   @Override
-  public void load(BotInterface _bot) {
+  public void load(Bot _bot) {
     System.out.println("Module " + this.getClass() + " loading ...");
     bot = _bot;
     player = bot.getPlayer();
