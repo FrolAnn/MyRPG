@@ -31,6 +31,8 @@ import com.myrpg.model.Character;
 import com.myrpg.model.Monster;
 import com.myrpg.model.Player;
 import com.myrpg.model.ArcherPlayer;
+import com.myrpg.model.Item;
+import com.myrpg.model.Teleportator;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +48,7 @@ public class GameScreen extends InputAdapter implements Screen {
     private MyRpgGame game;
     private SpriteBatch batch;
     private Texture land, player, playerArcher, monster, item, aggrMonster/*, arrow*/;
-    private Texture invBtn, invBtnPressed, inventory, closeBtn, invStatus, nextItemBtn, nextItemBtnPressed, nextItemBtnDisabled, prevItemBtn, prevItemBtnPressed, prevItemBtnDisabled;
+    private Texture activateBtn, invBtn, invBtnPressed, inventory, closeBtn, invStatus, nextItemBtn, nextItemBtnPressed, nextItemBtnDisabled, prevItemBtn, prevItemBtnPressed, prevItemBtnDisabled;
     private int currInvItem = 0;
     private boolean invBtnIsPressed = false, nextItemBtnIsPressed = false, prevItemBtnIsPressed = false;
     private Map<String, TextureRegion> landRegions = new HashMap<String, TextureRegion>();
@@ -63,7 +65,6 @@ public class GameScreen extends InputAdapter implements Screen {
     private TextureRegion[] aggrMonsterAttackUp, aggrMonsterAttackRight, aggrMonsterAttackDown, aggrMonsterAttackLeft;
     private TextureRegion[] aggrMonsterDieUp, aggrMonsterDieRight, aggrMonsterDieDown, aggrMonsterDieLeft;
     private TextureRegion[] itemRegion;
-    //private TextureRegion arrowUp, arrowRight, arrowDown, arrowLeft;
     private Animation playerMoveUpAnimation, playerMoveRightAnimation, playerMoveDownAnimation, playerMoveLeftAnimation;
     private Animation playerAttackUpAnimation, playerAttackRightAnimation, playerAttackDownAnimation, playerAttackLeftAnimation;
     private Animation playerDieUpAnimation, playerDieRightAnimation, playerDieDownAnimation, playerDieLeftAnimation;
@@ -80,6 +81,7 @@ public class GameScreen extends InputAdapter implements Screen {
     private BitmapFont font10, font14;
     private float delta = 0;
     private boolean useBot;
+    private Teleportator activatedTP = null;
     
     public GameScreen(MyRpgGame _game, GameModel _model, GameField _field, boolean _useBot){
         model = _model;
@@ -167,6 +169,7 @@ public class GameScreen extends InputAdapter implements Screen {
     }
     
     private void loadInventoryTexture(){
+       activateBtn = new Texture(Gdx.files.internal("game screen/activateBtn.png"));
        invBtn = new Texture(Gdx.files.internal("game screen/invBtn.png"));
        invBtnPressed = new Texture(Gdx.files.internal("game screen/invBtnPressed.png"));
        inventory = new Texture(Gdx.files.internal("game screen/inventory.png"));
@@ -447,7 +450,13 @@ public class GameScreen extends InputAdapter implements Screen {
                 font14.draw(batch, "Current item " + (currInvItem+1) + " out of " + size + " items.", field.getWidth()*16-176+72, (field.getHeight()+2)*16-176+298);
                 // Отрисовка информации о предмете
                 drawItemInfo();
-            }  
+            } 
+            
+            // Отрисовка кнопки "использовать"
+            if(size != 0 && model.getPlayer().getInventory().get(currInvItem).getType() == "teleportator"){
+                if(model.getPlayer().getInventory().get(currInvItem).isEquip())
+                    batch.draw(activateBtn, field.getWidth()*16-53, (field.getHeight()+2)*16-150, 106, 28);
+            }
         }
     }
     
@@ -466,6 +475,9 @@ public class GameScreen extends InputAdapter implements Screen {
         if(info.containsKey("lifetime")){
             font14.draw(batch, info.get("lifetime"), width, height-175);
             font14.draw(batch, info.get("currTime"), width, height-195);
+        }
+        if(info.containsKey("description")){
+            font14.draw(batch, info.get("description"), width, height-175);
         }
     }
     
@@ -1173,6 +1185,8 @@ public class GameScreen extends InputAdapter implements Screen {
             else if(character == 'e' || character == 'E' || character == 'у' || character == 'У'){
                 player.attack(field);
             }
+            else if((int)character == 27)
+                activatedTP = null;  
         }
         return true;
     }
@@ -1181,6 +1195,12 @@ public class GameScreen extends InputAdapter implements Screen {
     public boolean touchUp (int screenX, int screenY, int pointer, int button){
         screenY = (field.getHeight()+3)*32 - screenY;
         int size = model.getPlayer().getInventory().size();
+        boolean isUsedItem = false;
+        Item currItem = null;
+        if(size != 0){
+            currItem = model.getPlayer().getInventory().get(currInvItem);
+            isUsedItem = currItem.getType() == "teleportator";
+        }
         if(!invBtnIsPressed && screenX >= (field.getWidth()-3)*32 && screenX <= (field.getWidth()-3)*32+106 && screenY >= (field.getHeight()+2)*32 && screenY <= (field.getHeight()+2)*32+28){
             invBtnIsPressed = true;
             return true;
@@ -1198,6 +1218,20 @@ public class GameScreen extends InputAdapter implements Screen {
             prevItemBtnIsPressed = true;
             currInvItem--;
             return true;
+        } 
+        else if(invBtnIsPressed && isUsedItem && screenX >= field.getWidth()*16-53 && screenX <= field.getWidth()*16-53+106 && screenY >= (field.getHeight()+2)*16-150 && screenY <= (field.getHeight()+2)*16-150+28){
+            if(currItem.isEquip()){
+                invBtnIsPressed = false;
+                activatedTP = (Teleportator) currItem;
+            }
+            return true;
+        }
+        if(activatedTP != null){
+            if(screenX >= 0 && screenX <= field.getWidth()*32 && screenY >= 0 && screenY <= (field.getHeight())*32){
+                Point pos = new Point(screenX/32, screenY/32);
+                activatedTP.use(model.getPlayer(), field.getCell(pos));
+                activatedTP = null;
+            }
         }
         return false;    
     }

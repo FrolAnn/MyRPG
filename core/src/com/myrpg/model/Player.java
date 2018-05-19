@@ -105,19 +105,32 @@ public class Player extends Character{
     }
     
     public void checkInventory(){
+        Item item = null;
         for(int i = 0; i < getInventory().size(); i++){
-            if(getInventory().get(i).getType() == "temporary item"){
+            item = getInventory().get(i);
+            if(item.getType() == "temporary item"){
                 // Если срок действия предмета вышел
-                if(((TemporaryItem)getInventory().get(i)).isActivated()){
-                    if(!((TemporaryItem)getInventory().get(i)).increaseTime()){
+                if(((TemporaryItem)item).isActivated()){
+                    if(!((TemporaryItem)item).increaseTime()){
                         // Удаляем характеристики и параметры предмета
-                        getParameters().removeParameters(getInventory().get(i).getParameters());
+                        getParameters().removeParameters(item.getParameters());
                         getCharacteristics().setCharacteristics(getParameters());
-                        checkItemsByIntellect(getInventory().get(i));
+                        checkItemsByIntellect(item);
                         // Удаляем предмет
                         getInventory().remove(i);                        
                         i--;                        
                     }
+                }
+            }
+            else if(item.getType() == "teleportator"){
+                if(((Teleportator)item).getActivation()){
+                        // Удаляем характеристики и параметры предмета
+                        getParameters().removeParameters(item.getParameters());
+                        getCharacteristics().setCharacteristics(getParameters());
+                        checkItemsByIntellect(item);
+                        // Удаляем предмет
+                        getInventory().remove(i);                        
+                        i--;  
                 }
             }
         }

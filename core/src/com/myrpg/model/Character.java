@@ -121,7 +121,7 @@ public abstract class Character {
         return state;
     }
     
-    protected void setCell(Cell _cell){
+    public void setCell(Cell _cell){
         if(cell != null)
             cell.clear();
         _cell.setCharacter(this);

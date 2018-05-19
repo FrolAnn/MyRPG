@@ -15,7 +15,7 @@ import java.util.Random;
  *
  * @author Ann
  */
-public class GameModel implements BotInterface {
+public class GameModel implements Bot {
     
     private GameField field;
     private Character player;
@@ -95,10 +95,13 @@ public class GameModel implements BotInterface {
             else
                 monster = factory.createPassiveMonster(lvl);
             // Создаем случайный предмет для монстра
-            if(rnd.nextBoolean()) // Временный предмет
+            int v = rnd.nextInt(90);
+            if(v <= 30) // Временный предмет
                 monster.addItem(new TemporaryItem());
-            else // Постоянный предмет
+            else if(v <= 60) // Постоянный предмет
                 monster.addItem(new Item());
+            else // Телепортатор
+                monster.addItem(new Teleportator());
             monster.setCell(cell);
         }
     }

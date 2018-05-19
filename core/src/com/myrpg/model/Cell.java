@@ -20,6 +20,14 @@ public class Cell {
     private ArrayList<Item> items = new ArrayList<Item>();
     public float itemStateTime = 0f;
     public TextureRegion itemCurrentFrame;
+
+    public Cell(){
+        
+    }
+    
+    public Cell(Point point) {
+       position = point;
+    }
     
     public void setPosition(Point point) {
         position = point;
