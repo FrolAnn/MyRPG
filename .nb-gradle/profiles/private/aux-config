@@ -4,11 +4,22 @@
   <auxiliary>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-      <group/>
+      <group>
+        <file>file:/C:/Users/Ann/Desktop/4%20курс/2%20семестр/Конструирование%20ПО/MyRpg/core/src/com/myrpg/model/Cell.java</file>
+        <file>file:/C:/Users/Ann/Desktop/4%20курс/2%20семестр/Конструирование%20ПО/MyRpg/core/src/com/myrpg/model/GameModel.java</file>
+        <file>file:/C:/Users/Ann/Desktop/4%20курс/2%20семестр/Конструирование%20ПО/MyRpg/core/src/com/myrpg/model/Player.java</file>
+        <file>file:/C:/Users/Ann/Desktop/4%20курс/2%20семестр/Конструирование%20ПО/MyRpg/core/test/test/java/com/myrpg/modules/TestBot.java</file>
+        <file>file:/C:/Users/Ann/Desktop/4%20курс/2%20семестр/Конструирование%20ПО/MyRpg/core/src/com/myrpg/model/Character.java</file>
+      </group>
     </open-files>
-    <editor-bookmarks lastBookmarkId="0" xmlns="http://www.netbeans.org/ns/editor-bookmarks/2"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-      <group/>
+      <group>
+        <file>file:/C:/Users/Ann/Desktop/4%20курс/2%20семестр/Конструирование%20ПО/MyRpg/core/src/com/myrpg/model/Character.java</file>
+        <file>file:/C:/Users/Ann/Desktop/4%20курс/2%20семестр/Конструирование%20ПО/MyRpg/core/src/com/myrpg/model/GameModel.java</file>
+        <file>file:/C:/Users/Ann/Desktop/4%20курс/2%20семестр/Конструирование%20ПО/MyRpg/core/src/com/myrpg/model/Player.java</file>
+        <file>file:/C:/Users/Ann/Desktop/4%20курс/2%20семестр/Конструирование%20ПО/MyRpg/core/src/com/myrpg/model/Cell.java</file>
+        <file>file:/C:/Users/Ann/Desktop/4%20курс/2%20семестр/Конструирование%20ПО/MyRpg/core/test/test/java/com/myrpg/modules/TestBot.java</file>
+      </group>
     </open-files>
   </auxiliary>
 </gradle-project-properties>
